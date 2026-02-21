@@ -18,13 +18,19 @@
                 if (!sessionData) {
                     const isSandbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSandbox) {
-                        localStorage.setItem('crimsonGateUser', JSON.stringify({ name: "Abdul Razak", phone: "923090609391" }));
+                        localStorage.setItem('crimsonGateUser', JSON.stringify({
+                            name: "Abdul Razak Bhutto",
+                            phone: "+92 309 0609391",
+                            location: "Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road, Besides National Bank, Daharki, Sindh, Pakistan",
+                            email: "abdulrazakb63@gmail.com",
+                            profileImage: "imgs/profile/founder-1.jpg"
+                        }));
                     } else {
                         window.location.href = 'auth.html';
                     }
                 }
             } catch (e) {
-                console.warn("Auth check bypassed due to environment restrictions.");
+                console.warn("Auth check restricted.");
             }
         </script>
 
@@ -44,8 +50,8 @@
                 --red-glow: rgba(255, 51, 51, 0.4);
                 --text-light: #f5f5f5;
                 --text-muted: #b3a3a3;
-                --glass-bg: rgba(20, 0, 0, 0.7);
-                --glass-border: rgba(255, 51, 51, 0.12);
+                --glass-bg: rgba(20, 0, 0, 0.75);
+                --glass-border: rgba(255, 51, 51, 0.15);
                 --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
@@ -247,6 +253,21 @@
                 color: var(--red-light);
             }
 
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background-color: var(--red-light);
+                transition: var(--transition-smooth);
+            }
+
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+
             .btn-logout {
                 padding: 10px 24px;
                 border: 1px solid var(--red-primary);
@@ -275,6 +296,12 @@
                 vertical-align: middle;
             }
 
+            .profile-link:hover {
+                border-color: var(--red-light);
+                transform: scale(1.1);
+                box-shadow: 0 0 15px var(--red-glow);
+            }
+
             .profile-img {
                 width: 100%;
                 height: 100%;
@@ -296,7 +323,7 @@
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                padding-top: 100px;
+                padding: 120px 20px 80px;
             }
 
             .hero-content {
@@ -312,7 +339,7 @@
             }
 
             .typewriter-h1 {
-                font-size: 5.5vw;
+                font-size: 6vw;
                 line-height: 1.1;
                 color: white;
                 min-height: 1.2em;
@@ -376,6 +403,24 @@
                 padding: 120px 40px;
             }
 
+            .section-title {
+                text-align: center;
+                font-size: 48px;
+                margin-bottom: 20px;
+                color: white;
+                letter-spacing: -1px;
+            }
+
+            .section-subtitle {
+                text-align: center;
+                color: var(--red-light);
+                font-size: 14px;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                margin-bottom: 70px;
+                font-weight: 600;
+            }
+
             .glass-panel {
                 background: var(--glass-bg);
                 backdrop-filter: blur(25px);
@@ -412,10 +457,6 @@
                 transition: transform 1s ease;
             }
 
-            .bio-image-frame:hover img {
-                transform: scale(1.05);
-            }
-
             .bio-info h2 {
                 font-size: 48px;
                 margin-bottom: 25px;
@@ -444,25 +485,7 @@
                 background: rgba(255, 51, 51, 0.05);
             }
 
-            /* --- HERITAGE & FAMILY --- */
-            .section-title {
-                text-align: center;
-                font-size: 48px;
-                margin-bottom: 20px;
-                color: white;
-                letter-spacing: -1px;
-            }
-
-            .section-subtitle {
-                text-align: center;
-                color: var(--red-light);
-                font-size: 14px;
-                letter-spacing: 4px;
-                text-transform: uppercase;
-                margin-bottom: 70px;
-                font-weight: 600;
-            }
-
+            /* --- FAMILY CARDS --- */
             .family-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -576,7 +599,6 @@
                 font-size: 20px;
                 color: white;
                 margin-bottom: 12px;
-                letter-spacing: 0.5px;
             }
 
             .timeline-content p {
@@ -585,7 +607,7 @@
                 line-height: 1.7;
             }
 
-            /* --- OVERHAULED FOOTER --- */
+            /* --- FOOTER --- */
             .site-footer {
                 background: rgba(5, 0, 0, 0.95);
                 border-top: 1px solid var(--glass-border);
@@ -682,10 +704,9 @@
                 background: var(--red-primary);
                 border: none;
                 border-radius: 8px;
-                padding: 10px 25px;
+                padding: 10px 20px;
                 color: white;
-                font-weight: 700;
-                cursor: none !important;
+                font-weight: 600;
             }
 
             .footer-bottom {
@@ -698,32 +719,75 @@
                 font-size: 13px;
             }
 
-            .social-icons {
+            /* Modals */
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(5, 0, 0, 0.9);
+                backdrop-filter: blur(15px);
+                z-index: 2000;
                 display: flex;
-                gap: 20px;
-            }
-
-            .social-icons a {
-                color: var(--text-muted);
-                text-decoration: none;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
                 transition: var(--transition-smooth);
-                font-size: 14px;
             }
 
-            .social-icons a:hover {
+            .modal-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 600px;
+                padding: 50px;
+                border-radius: 40px;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+            }
+
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 20px;
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                color: var(--text-muted);
+                font-size: 32px;
+                line-height: 1;
+                transition: var(--transition-smooth);
+            }
+
+            .modal-close:hover {
                 color: var(--red-light);
-                transform: translateY(-3px);
+            }
+
+            .modal-body {
+                color: var(--text-muted);
+                font-size: 16px;
+                line-height: 1.8;
             }
 
             /* Responsiveness */
             @media (max-width: 1100px) {
+                .footer-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+
                 .bio-layout {
                     grid-template-columns: 1fr;
                     gap: 60px;
-                }
-
-                .footer-grid {
-                    grid-template-columns: 1fr 1fr;
                 }
             }
 
@@ -757,12 +821,36 @@
                     padding: 20px 5%;
                 }
 
-                .mobile-menu-btn {
-                    display: block;
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    right: 0;
+                    width: 75%;
+                    height: 100vh;
+                    background: rgba(10, 0, 0, 0.98);
+                    flex-direction: column;
+                    padding: 120px 0;
+                    border-left: 1px solid var(--glass-border);
+                    transform: translateX(100%);
+                    transition: transform 0.5s ease;
+                    z-index: 999;
                 }
 
-                .nav-links {
+                .nav-links.active {
+                    transform: translateX(0);
+                }
+
+                .mobile-menu-btn {
+                    display: block;
+                    z-index: 1001;
+                }
+
+                .custom-cursor {
                     display: none;
+                }
+
+                * {
+                    cursor: auto !important;
                 }
 
                 .footer-grid {
@@ -809,7 +897,8 @@
                 <a href="blog.html" class="interactable">Blog</a>
                 <a href="contact.html" class="interactable">Contact</a>
                 <a href="profile.html" class="profile-link interactable" title="Member Suite">
-                    <img src="imgs/profile/founder-1.jpg" alt="Profile" class="profile-img">
+                    <img id="nav-profile-img" src="imgs/profile/founder-1.jpg" alt="Member" class="profile-img"
+                        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23b3a3a3\' stroke-width=\'2\'><circle cx=\'12\' cy=\'8\' r=\'4\'></circle><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path></svg>'">
                 </a>
                 <button onclick="logout()" class="btn-logout interactable">LOGOUT</button>
             </div>
@@ -817,7 +906,7 @@
 
         <section id="hero-about">
             <div class="hero-content">
-                <p class="brand-font">Architect & Scholar</p>
+                <p class="brand-font">Founder & Architect</p>
                 <div class="typewriter-container">
                     <h1 class="typewriter-h1 brand-font">
                         Meet the<br>
@@ -832,18 +921,19 @@
             <div class="glass-panel">
                 <div class="bio-layout">
                     <div class="bio-image-frame interactable">
-                        <img src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto">
+                        <img id="bio-img" src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto">
                     </div>
                     <div class="bio-info">
-                        <span class="badge">Founder | Lead Engineer</span>
-                        <h2>Abdul Razak Bhutto</h2>
+                        <span class="badge">Chief Engineering Officer</span>
+                        <h2 class="brand-font" id="bio-name">Abdul Razak Bhutto</h2>
                         <p>Born on April 1, 2001, in Daharki, Sindh, Pakistan, I carry a heritage of leadership and
-                            academic rigor as a member of the Bhutto caste. My journey has been driven by an obsessive
-                            focus on the intersection of cryptographic security and high-fidelity aesthetics.</p>
-                        <p>Crimson Gate is the ultimate manifestation of my professional vision: a digital sanctuary
-                            where exclusive access is granted through ironclad, zero-trust protocols, wrapped in an
-                            interface of unparalleled luxury. I believe that digital safety should not just be a
-                            requirement, but an immersive, high-end experience.</p>
+                            intellectual rigor as a proud member of the Bhutto caste. My journey into the scientific
+                            frontier began early, driven by a fascination with how code and logic can architect entire
+                            digital worlds.</p>
+                        <p>Crimson Gate is the culmination of my professional vision: a digital sanctuary that merges
+                            uncompromising zero-trust security with a high-fidelity aesthetic experience. My focus is on
+                            providing high-profile clients with seamless, frictionless access to exclusive suites while
+                            maintaining a cryptographic fortress around their identity.</p>
 
                         <div style="margin-top: 50px;">
                             <h3 class="brand-font" style="color: white; font-size: 28px; margin-bottom: 25px;">The
@@ -852,14 +942,14 @@
                                 <div class="family-card">
                                     <span class="family-icon">🏛️</span>
                                     <h4>Abdul Hakeem</h4>
-                                    <p>Father | The visionary whose unwavering guidance built the foundation of my
-                                        academic and moral resolve.</p>
+                                    <p>Father | The foundation of wisdom whose guidance built the pillar of my academic
+                                        and moral resolve.</p>
                                 </div>
                                 <div class="family-card">
                                     <span class="family-icon">⚙️</span>
                                     <h4>Abdul Nasir</h4>
-                                    <p>Brother | BE Chemical Engineer (DUET). Quality Assurance Expert at Millinium
-                                        Textile Mil, Karachi.</p>
+                                    <p>Brother | BE Chemical Engineer (DUET). Currently serving as Quality Assurance
+                                        Officer at Millinium Textile Mil, Karachi.</p>
                                 </div>
                                 <div class="family-card">
                                     <span class="family-icon">📖</span>
@@ -874,19 +964,19 @@
             </div>
         </section>
 
-        <section id="academic-timeline">
+        <section id="chronicles">
             <h2 class="section-title brand-font">Chronicles of Knowledge</h2>
-            <p class="section-subtitle">Architectural Milestones</p>
+            <p class="section-subtitle">Architectural Timeline</p>
 
             <div class="timeline-container">
                 <!-- MPhil -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
-                        <span class="timeline-year">2025 - 2027 (Expected)</span>
-                        <h3>MPhil in Computer Science</h3>
+                        <span class="timeline-year">2025 - PRESENT (Expected 2027)</span>
+                        <h3 class="brand-font">MPhil in Computer Science</h3>
                         <p>National College of Business Administration & Economics (NCBA&E), Rahim Yar Khan.
-                            Specializing in advanced cryptographic architectures and secure system analysis.</p>
+                            Specializing in advanced cryptographic architectures.</p>
                     </div>
                 </div>
                 <!-- BEd -->
@@ -894,7 +984,7 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2024 - 2025</span>
-                        <h3>Bachelor of Education (BEd)</h3>
+                        <h3 class="brand-font">Bachelor of Education (BEd)</h3>
                         <p>Ammara College, Ghotki. Exploring the structural intersection of pedagogical systems and
                             technical knowledge transfer.</p>
                     </div>
@@ -904,9 +994,9 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2020 - 2024</span>
-                        <h3>BS Computer Science</h3>
-                        <p>Shah Abdul Latif University (SALU), Campus Ghotki. Mastered core software development
-                            protocols and system design patterns.</p>
+                        <h3 class="brand-font">BS Computer Science</h3>
+                        <p>Shah Abdul Latif University (SALU), Campus Ghotki. Mastered software engineering protocols
+                            and system design patterns.</p>
                     </div>
                 </div>
                 <!-- BSc -->
@@ -914,19 +1004,19 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2018 - 2020</span>
-                        <h3>BSc (Honors)</h3>
-                        <p>Government Boys Degree College, Daharki. Focused on analytical reasoning and advanced
-                            scientific inquiry.</p>
+                        <h3 class="brand-font">BSc (Honors)</h3>
+                        <p>Government Boys Degree College, Daharki. Focused on foundation scientific inquiry and
+                            analytical reasoning.</p>
                     </div>
                 </div>
-                <!-- Inter -->
+                <!-- Intermediate -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2016 - 2018</span>
-                        <h3>Intermediate (Pre-Engineering)</h3>
-                        <p>Government Boys Degree College, Daharki. Rigorous study of applied mathematics and
-                            engineering logic.</p>
+                        <h3 class="brand-font">Intermediate (Pre-Engineering)</h3>
+                        <p>Government Boys Degree College, Daharki. Mastery of applied mathematics and engineering
+                            logic.</p>
                     </div>
                 </div>
                 <!-- Matric -->
@@ -934,8 +1024,8 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2014 - 2016</span>
-                        <h3>Matriculation (Science)</h3>
-                        <p>Government (Boys) Single Section High School, Daharki. Initial exposure to systematic
+                        <h3 class="brand-font">Matriculation (Science)</h3>
+                        <p>Government (Boys) Single Section High School, Daharki. Early exposure to systematic
                             scientific methodology.</p>
                     </div>
                 </div>
@@ -944,9 +1034,9 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2011 - 2014</span>
-                        <h3>Middle School</h3>
-                        <p>Government (Boys) Single Section High School, Daharki. Development of foundational logic and
-                            academic discipline.</p>
+                        <h3 class="brand-font">Middle Education</h3>
+                        <p>Government (Boys) Single Section High School, Daharki. Development of foundational academic
+                            discipline.</p>
                     </div>
                 </div>
                 <!-- Primary -->
@@ -954,9 +1044,9 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content interactable">
                         <span class="timeline-year">2006 - 2011</span>
-                        <h3>Primary Education</h3>
-                        <p>Government Main (P) School, Daharki. The genesis of a lifelong pursuit of knowledge and
-                            digital curiosity.</p>
+                        <h3 class="brand-font">Primary Education</h3>
+                        <p>Government Main (P) School, Daharki. The genesis of a lifelong pursuit of digital curiosity
+                            and logic.</p>
                     </div>
                 </div>
             </div>
@@ -967,7 +1057,7 @@
                 <div class="footer-col">
                     <div class="nav-brand" style="margin-bottom: 25px;">CRIMSON GATE</div>
                     <p>The global benchmark for luxury digital authentication. Providing high-profile clients with
-                        architectural security and aesthetic excellence since 2026.</p>
+                        architectural security and aesthetic excellence.</p>
                     <div class="newsletter-box">
                         <input type="email" placeholder="Email for briefings..." class="newsletter-input">
                         <button class="newsletter-btn interactable">JOIN</button>
@@ -977,49 +1067,90 @@
                     <h4>Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="index.html" class="interactable">Member Home</a></li>
-                        <li><a href="about.html" class="interactable">Our Architecture</a></li>
-                        <li><a href="blog.html" class="interactable">Exclusive Blog</a></li>
+                        <li><a href="about.html" class="interactable active">Our Architecture</a></li>
+                        <li><a href="blog.html" class="interactable">Intelligence Blog</a></li>
                         <li><a href="contact.html" class="interactable">Secure Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Legal & Safety</h4>
                     <ul class="footer-links">
-                        <li><a href="#" class="interactable">Privacy Protocol</a></li>
-                        <li><a href="#" class="interactable">Terms of Access</a></li>
-                        <li><a href="#" class="interactable">Encryption Standards</a></li>
+                        <li><a href="#" class="interactable" onclick="openModal('modal-privacy', event)">Privacy
+                                Protocol</a></li>
+                        <li><a href="#" class="interactable" onclick="openModal('modal-terms', event)">Terms of
+                                Access</a></li>
+                        <li><a href="#" class="interactable" onclick="openModal('modal-security', event)">Security
+                                Layer</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Headquarters</h4>
                     <div class="footer-contact-item">
-                        <span class="footer-contact-icon">📍</span>
-                        <p>Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
+                        <div class="footer-contact-icon">📍</div>
+                        <p id="footer-address">Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
                     </div>
                     <div class="footer-contact-item">
-                        <span class="footer-contact-icon">📧</span>
-                        <p>abdulrazakb63@gmail.com</p>
+                        <div class="footer-contact-icon">📧</div>
+                        <p id="footer-email">abdulrazakb63@gmail.com</p>
                     </div>
                     <div class="footer-contact-item">
-                        <span class="footer-contact-icon">📱</span>
-                        <p>+92 309 0609391</p>
+                        <div class="footer-contact-icon">📱</div>
+                        <p id="footer-phone">+92 309 0609391</p>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div>&copy; 2026 Crimson Gate Inc. Built by Abdul Razak Bhutto. All rights reserved.</div>
-                <div class="social-icons">
-                    <a href="#" class="interactable">Facebook</a>
-                    <a href="#" class="interactable">LinkedIn</a>
-                    <a href="#" class="interactable">GitHub</a>
+                <div class="social-icons" style="display:flex; gap:20px;">
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">Twitter</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">LinkedIn</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">GitHub</a>
                 </div>
             </div>
         </footer>
 
+        <!-- Modals -->
+        <div class="modal-overlay" id="modal-privacy" onclick="closeModalOnOutside(event, 'modal-privacy')">
+            <div class="glass-panel modal-content">
+                <div class="modal-header">
+                    <h3 class="brand-font">Privacy Protocol</h3><button class="modal-close interactable"
+                        onclick="closeModal('modal-privacy')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Crimson Gate utilizes zero-knowledge cryptographic layers. Session data is ephemeral and
+                        encrypted at rest using industry-leading standards. We prioritize member anonymity.</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="modal-terms" onclick="closeModalOnOutside(event, 'modal-terms')">
+            <div class="glass-panel modal-content">
+                <div class="modal-header">
+                    <h3 class="brand-font">Terms of Access</h3><button class="modal-close interactable"
+                        onclick="closeModal('modal-terms')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Access is restricted to authorized personnel. Any attempt to exploit vulnerabilities results in
+                        permanent revocation of member status and exclusion from the gateway.</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="modal-security" onclick="closeModalOnOutside(event, 'modal-security')">
+            <div class="glass-panel modal-content">
+                <div class="modal-header">
+                    <h3 class="brand-font">Security Layer</h3><button class="modal-close interactable"
+                        onclick="closeModal('modal-security')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Our architecture utilizes high-entropy verification and sanitized DOM logic to protect
+                        high-profile identities across the global network.</p>
+                </div>
+            </div>
+        </div>
+
         <script>
             // --- 3D TYPEWRITER LOGIC ---
             const typewriterElement = document.getElementById('typewriterText');
-            const phrases = ["Main Architect", "Lead Developer", "CS Scholar", "Digital Visionary"];
+            const phrases = ["The Mind Behind", "Main Architect", "Chief Engineer", "CS Scholar", "Digital Visionary"];
             let phraseIdx = 0, charIdx = 0, isDel = false, speed = 100;
             function type() {
                 const current = phrases[phraseIdx];
@@ -1054,15 +1185,55 @@
             document.addEventListener('mouseup', () => cur.classList.remove('clicking'));
             document.querySelectorAll('button, input, a, .interactable').forEach(el => { el.addEventListener('mouseenter', () => cur.classList.add('hovering')); el.addEventListener('mouseleave', () => cur.classList.remove('hovering')); });
 
+            // --- AUTH, SYNC & MODALS ---
+            function openModal(id, e) { if (e) e.preventDefault(); document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
+            function closeModalOnOutside(e, id) { if (e.target.id === id) closeModal(id); }
+
             function logout() {
                 localStorage.removeItem('crimsonGateUser');
                 document.body.style.opacity = '0';
                 document.body.style.transition = 'opacity 0.6s ease';
-                setTimeout(() => window.location.href = 'auth.html', 600);
+                setTimeout(() => {
+                    const isSbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
+                    if (isSbox) {
+                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated)</p></div>';
+                        document.body.style.opacity = '1';
+                    } else {
+                        window.location.href = 'auth.html';
+                    }
+                }, 600);
             }
-            function toggleMenu() { if (window.innerWidth <= 768) document.getElementById('navLinks').style.display = (document.getElementById('navLinks').style.display === 'flex' ? 'none' : 'flex'); }
 
-            document.addEventListener('DOMContentLoaded', type);
+            function toggleMenu() {
+                const navLinks = document.getElementById('navLinks');
+                if (window.innerWidth <= 768) navLinks.classList.toggle('active');
+            }
+
+            function syncUserData() {
+                const sessionStr = localStorage.getItem('crimsonGateUser');
+                if (sessionStr) {
+                    try {
+                        const user = JSON.parse(sessionStr);
+
+                        if (user.profileImage) {
+                            document.getElementById('nav-profile-img').src = user.profileImage;
+                            document.getElementById('bio-img').src = user.profileImage;
+                        }
+                        if (user.name) {
+                            document.getElementById('bio-name').innerText = user.name;
+                        }
+                        if (user.location) document.getElementById('footer-address').innerText = user.location;
+                        if (user.email) document.getElementById('footer-email').innerText = user.email;
+                        if (user.phone) document.getElementById('footer-phone').innerText = user.phone;
+                    } catch (e) { console.error("Identity sync error."); }
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                type();
+                syncUserData();
+            });
         </script>
     </body>
 

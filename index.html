@@ -18,7 +18,14 @@
                 if (!sessionData) {
                     const isSandbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSandbox) {
-                        localStorage.setItem('crimsonGateUser', JSON.stringify({ name: "Abdul Razak", phone: "923001234567" }));
+                        // Sandbox fallback for AI preview environment
+                        localStorage.setItem('crimsonGateUser', JSON.stringify({
+                            name: "Abdul Razak Bhutto",
+                            phone: "+92 309 0609391",
+                            location: "Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road, Besides National Bank, Daharki, Sindh, Pakistan",
+                            email: "abdulrazakb63@gmail.com",
+                            profileImage: "imgs/profile/founder-1.jpg"
+                        }));
                     } else {
                         window.location.href = 'auth.html';
                     }
@@ -44,8 +51,8 @@
                 --red-glow: rgba(255, 51, 51, 0.4);
                 --text-light: #f5f5f5;
                 --text-muted: #b3a3a3;
-                --glass-bg: rgba(20, 0, 0, 0.7);
-                --glass-border: rgba(255, 51, 51, 0.12);
+                --glass-bg: rgba(20, 0, 0, 0.75);
+                --glass-border: rgba(255, 51, 51, 0.15);
                 --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
@@ -571,26 +578,27 @@
             .wa-card {
                 background: var(--glass-bg);
                 border-radius: 32px;
-                padding: 60px 50px;
-                max-width: 550px;
+                padding: 70px 60px;
+                max-width: 600px;
                 width: 100%;
                 text-align: center;
                 transition: var(--transition-smooth);
                 border: 1px solid var(--glass-border);
+                box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
             }
 
             .wa-card:hover {
-                transform: scale(1.02);
+                transform: translateY(-10px);
                 border-color: rgba(37, 211, 102, 0.4);
             }
 
             .wa-profile-wrapper {
                 position: relative;
-                width: 150px;
-                height: 150px;
-                margin: 0 auto 30px;
+                width: 170px;
+                height: 170px;
+                margin: 0 auto 35px;
                 border-radius: 50%;
-                padding: 5px;
+                padding: 6px;
                 background: linear-gradient(135deg, var(--red-light), var(--red-dark));
                 box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
             }
@@ -600,18 +608,18 @@
                 height: 100%;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 4px solid var(--bg-dark);
+                border: 5px solid var(--bg-dark);
             }
 
             .wa-online-dot {
                 position: absolute;
-                bottom: 8px;
-                right: 12px;
-                width: 28px;
-                height: 28px;
+                bottom: 12px;
+                right: 15px;
+                width: 30px;
+                height: 30px;
                 background-color: #25D366;
                 border-radius: 50%;
-                border: 4px solid var(--bg-dark);
+                border: 5px solid var(--bg-dark);
                 animation: pulse-green 2s infinite;
             }
 
@@ -621,7 +629,7 @@
                 }
 
                 70% {
-                    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+                    box-shadow: 0 0 0 18px rgba(37, 211, 102, 0);
                 }
 
                 100% {
@@ -630,9 +638,9 @@
             }
 
             .wa-name {
-                font-size: 32px;
+                font-size: 36px;
                 color: white;
-                margin-bottom: 8px;
+                margin-bottom: 10px;
             }
 
             .wa-btn {
@@ -641,23 +649,24 @@
                 justify-content: center;
                 gap: 15px;
                 width: 100%;
-                padding: 20px;
-                border-radius: 16px;
+                padding: 22px;
+                border-radius: 18px;
                 background: linear-gradient(90deg, #128C7E, #25D366);
                 color: white;
                 font-weight: 700;
                 text-decoration: none;
                 font-size: 18px;
                 transition: var(--transition-smooth);
-                margin-top: 20px;
+                margin-top: 25px;
+                box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
             }
 
             .wa-btn:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
+                box-shadow: 0 20px 40px rgba(37, 211, 102, 0.4);
             }
 
-            /* --- OVERHAULED LARGE FOOTER --- */
+            /* --- FOOTER OVERHAUL --- */
             .site-footer {
                 background: rgba(5, 0, 0, 0.95);
                 border-top: 1px solid var(--glass-border);
@@ -743,19 +752,21 @@
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid var(--glass-border);
                 border-radius: 8px;
-                padding: 10px 15px;
+                padding: 12px 15px;
                 color: white;
                 flex-grow: 1;
                 font-family: inherit;
+                font-size: 14px;
             }
 
             .newsletter-btn {
                 background: var(--red-primary);
                 border: none;
                 border-radius: 8px;
-                padding: 10px 20px;
+                padding: 10px 25px;
                 color: white;
-                font-weight: 600;
+                font-weight: 700;
+                cursor: none !important;
             }
 
             .footer-bottom {
@@ -768,22 +779,7 @@
                 font-size: 13px;
             }
 
-            .social-icons {
-                display: flex;
-                gap: 20px;
-            }
-
-            .social-icons a {
-                color: var(--text-muted);
-                transition: var(--transition-smooth);
-            }
-
-            .social-icons a:hover {
-                color: var(--red-light);
-                transform: translateY(-3px);
-            }
-
-            /* --- MODALS --- */
+            /* Modals */
             .modal-overlay {
                 position: fixed;
                 top: 0;
@@ -811,6 +807,8 @@
                 max-width: 600px;
                 padding: 50px;
                 border-radius: 40px;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
             }
 
             .modal-header {
@@ -868,11 +866,11 @@
                     position: fixed;
                     top: 0;
                     right: 0;
-                    width: 70%;
+                    width: 75%;
                     height: 100vh;
                     background: rgba(10, 0, 0, 0.98);
                     flex-direction: column;
-                    padding: 100px 0;
+                    padding: 120px 0;
                     border-left: 1px solid var(--glass-border);
                     transform: translateX(100%);
                     transition: transform 0.5s ease;
@@ -936,7 +934,7 @@
             </a>
             <button class="mobile-menu-btn interactable" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html" class="interactable">Home</a>
+                <a href="index.html" class="interactable active">Home</a>
                 <a href="about.html" class="interactable">About</a>
                 <a href="blog.html" class="interactable">Blog</a>
                 <a href="contact.html" class="interactable">Contact</a>
@@ -958,9 +956,9 @@
                     </h1>
                 </div>
                 <p id="hero-welcome-msg">Experience unparalleled digital exclusivity and high-fidelity security. Your
-                    gateway to the crimson elite is now live.</p>
+                    gateway is active.</p>
                 <div style="display:flex; gap:20px; justify-content:center;">
-                    <a href="#about" class="btn-primary interactable">Explore Gateway</a>
+                    <a href="#about" class="btn-primary interactable">Explore Architecture</a>
                     <a href="blog.html" class="btn-primary interactable"
                         style="background:transparent; border:1px solid var(--red-light); box-shadow:none;">Latest
                         Insights</a>
@@ -983,23 +981,22 @@
                 <h3 class="brand-font" style="font-size: 32px; margin-bottom: 25px; color: white;">The Crimson Standard
                 </h3>
                 <p style="color: var(--text-muted); line-height: 2; font-size: 17px;">
-                    Crimson Gate represents a paradigm shift in digital luxury. We merge the uncompromising security of
-                    zero-trust architectures with an aesthetic experience designed for high-profile ecosystems. Our goal
-                    is to provide seamless, frictionless access to exclusive suites while maintaining a cryptographic
-                    fortress around your identity.
+                    Crimson Gate represents a paradigm shift in digital luxury. We merge uncompromising zero-trust
+                    architectures with an aesthetic experience designed for high-profile clients. Our goal is to provide
+                    seamless, passwordless entry while maintaining a cryptographic fortress around your identity.
                 </p>
             </div>
         </section>
 
         <section id="blog">
             <h2 class="section-title brand-font">Elite Insights</h2>
-            <p class="section-subtitle">Suite Intelligence</p>
+            <p class="section-subtitle">Intelligence Blog</p>
             <div class="blog-grid">
                 <div class="glass-panel blog-card interactable">
                     <span class="blog-date">FEB 21, 2026</span>
                     <h3 class="brand-font">Zero-Trust Paradigms</h3>
                     <p>Analyzing the impact of stateless authentication on global enterprise security and the future of
-                        passwordless biometric vaults...</p>
+                        biometric vaults...</p>
                     <a href="blog.html" class="read-more">OPEN DISPATCH →</a>
                 </div>
                 <div class="glass-panel blog-card interactable">
@@ -1027,18 +1024,16 @@
             <p class="section-subtitle">Lead Developer</p>
             <div class="glass-panel founder-layout">
                 <div class="founder-image interactable">
-                    <img src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto"
-                        onerror="this.src='data:image/svg+xml;utf8,<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'gray\'><circle cx=\'12\' cy=\'12\' r=\'10\'></circle></svg>'">
+                    <img id="founder-img" src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto">
                 </div>
                 <div class="founder-info">
-                    <h3 class="brand-font">Abdul Razak Bhutto</h3>
+                    <h3 class="brand-font" id="founder-name">Abdul Razak Bhutto</h3>
                     <h4>Software Engineer & CS Scholar</h4>
-                    <p>Born in Daharki, Pakistan, Abdul Razak has spent years mastering the intersection of
-                        cryptographic security and modern user experience. After completing his BSCS from Shah Abdul
-                        Latif University (Campus Ghotki), he is now advancing his research in MPhil Computer Science at
-                        NCBA&E.</p>
-                    <p>Crimson Gate is the culmination of his vision: a digital gateway that is as beautiful as it is
-                        impenetrable.</p>
+                    <p>Born in Daharki, Pakistan, Abdul Razak has mastered the intersection of cryptographic security
+                        and modern user experience. As a member of the Bhutto caste, he carries a heritage of leadership
+                        into his MPhil research at NCBA&E.</p>
+                    <p>Crimson Gate is the culmination of his vision: a digital sanctuary that is as beautiful as it is
+                        impenetrable, built for those who require ultimate exclusivity.</p>
                 </div>
             </div>
         </section>
@@ -1049,19 +1044,23 @@
             <div class="wa-card-container">
                 <div class="wa-card interactable">
                     <div class="wa-profile-wrapper">
-                        <img src="imgs/profile/founder-1.jpg" alt="Abdul Razak" class="wa-profile-pic">
+                        <img id="wa-profile-pic" src="imgs/profile/founder-1.jpg" alt="Abdul Razak"
+                            class="wa-profile-pic">
                         <div class="wa-online-dot"></div>
                     </div>
-                    <h3 class="brand-font wa-name">Abdul Razak Bhutto</h3>
-                    <p class="wa-title">Lead Architect | Available for Consultation</p>
-                    <p style="color: var(--text-muted); margin-bottom: 30px; line-height: 1.6;">Secure your integration
-                        with a direct line to the founder. Currently monitoring all encrypted incoming dispatches.</p>
-                    <a href="https://wa.me/923001234567" target="_blank" class="wa-btn interactable">
+                    <h3 class="brand-font wa-name" id="wa-name">Abdul Razak Bhutto</h3>
+                    <p
+                        style="color: var(--red-light); font-weight: 700; letter-spacing: 2px; margin-bottom: 25px; text-transform: uppercase; font-size: 13px;">
+                        Lead Architect | Active Now</p>
+                    <p style="color: var(--text-muted); margin-bottom: 35px; line-height: 1.8; font-size: 16px;">
+                        Establish a direct line for exclusive consultations and zero-trust architectural planning.
+                        Currently monitoring all encrypted dispatches.</p>
+                    <a id="wa-link" href="https://wa.me/923090609391" target="_blank" class="wa-btn interactable">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
                         </svg>
-                        CONNECT ON WHATSAPP
+                        SECURE CHAT ON WHATSAPP
                     </a>
                 </div>
             </div>
@@ -1071,8 +1070,8 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="nav-brand" style="margin-bottom: 25px;">CRIMSON GATE</div>
-                    <p>The global benchmark for luxury digital authentication. Providing high-profile clients with
-                        architectural security and aesthetic excellence since 2026.</p>
+                    <p>The global benchmark for luxury digital authentication. Providing architectural security and
+                        aesthetic excellence since 2026.</p>
                     <div class="newsletter-box">
                         <input type="email" placeholder="Email for briefings..." class="newsletter-input">
                         <button class="newsletter-btn interactable">JOIN</button>
@@ -1083,7 +1082,7 @@
                     <ul class="footer-links">
                         <li><a href="index.html" class="interactable">Member Home</a></li>
                         <li><a href="about.html" class="interactable">Our Architecture</a></li>
-                        <li><a href="blog.html" class="interactable">Exclusive Blog</a></li>
+                        <li><a href="blog.html" class="interactable">Intelligence Blog</a></li>
                         <li><a href="contact.html" class="interactable">Secure Contact</a></li>
                     </ul>
                 </div>
@@ -1102,24 +1101,24 @@
                     <h4>Headquarters</h4>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📍</div>
-                        <p>Daharki, Sindh, Pakistan.</p>
+                        <p id="footer-address">Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📧</div>
-                        <p>abdulrazakb63@gmail.com</p>
+                        <p id="footer-email">abdulrazakb63@gmail.com</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📱</div>
-                        <p>+92 309 0609391</p>
+                        <p id="footer-phone">+92 309 0609391</p>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div>&copy; 2026 Crimson Gate Inc. Built by Abdul Razak Bhutto. All rights reserved.</div>
-                <div class="social-icons">
-                    <a href="#" class="interactable">facebook</a>
-                    <a href="#" class="interactable">LinkedIn</a>
-                    <a href="#" class="interactable">GitHub</a>
+                <div class="social-icons" style="display:flex; gap:20px;">
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">Twitter</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">LinkedIn</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">GitHub</a>
                 </div>
             </div>
         </footer>
@@ -1132,13 +1131,11 @@
                         onclick="closeModal('modal-privacy')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Crimson Gate utilizes zero-knowledge cryptographic layers. We do not store plain-text
-                        credentials; session data is ephemeral and encrypted at rest using industry-leading AES-256
-                        standards.</p>
+                    <p>Crimson Gate utilizes zero-knowledge cryptographic layers. Session data is ephemeral and
+                        encrypted at rest using industry-leading standards. We prioritize your anonymity.</p>
                 </div>
             </div>
         </div>
-
         <div class="modal-overlay" id="modal-terms" onclick="closeModalOnOutside(event, 'modal-terms')">
             <div class="glass-panel modal-content">
                 <div class="modal-header">
@@ -1146,12 +1143,11 @@
                         onclick="closeModal('modal-terms')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Access to the Crimson Gate suite is restricted to authorized personnel. Any attempt to exploit
-                        session vulnerabilities will result in permanent exclusion from the ecosystem.</p>
+                    <p>Access to the suite is restricted to authorized personnel only. Any attempt to exploit
+                        vulnerabilities results in permanent revocation of member status.</p>
                 </div>
             </div>
         </div>
-
         <div class="modal-overlay" id="modal-security" onclick="closeModalOnOutside(event, 'modal-security')">
             <div class="glass-panel modal-content">
                 <div class="modal-header">
@@ -1159,8 +1155,8 @@
                         onclick="closeModal('modal-security')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Our architecture utilizes multi-factor WhatsApp verification, preventing unauthorized takeover.
-                        The front-end is hardened against XSS injections through sanitized DOM manipulation.</p>
+                    <p>Our architecture utilizes high-entropy verification and sanitized DOM logic to protect
+                        high-profile digital identities across the global grid.</p>
                 </div>
             </div>
         </div>
@@ -1203,10 +1199,11 @@
             document.addEventListener('mouseup', () => cur.classList.remove('clicking'));
             document.querySelectorAll('button, input, a, .interactable').forEach(el => { el.addEventListener('mouseenter', () => cur.classList.add('hovering')); el.addEventListener('mouseleave', () => cur.classList.remove('hovering')); });
 
-            // --- MODAL & AUTH ---
+            // --- AUTH, SYNC & MODALS ---
             function openModal(id, e) { if (e) e.preventDefault(); document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
             function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
             function closeModalOnOutside(e, id) { if (e.target.id === id) closeModal(id); }
+
             function logout() {
                 localStorage.removeItem('crimsonGateUser');
                 document.body.style.opacity = '0';
@@ -1214,22 +1211,51 @@
                 setTimeout(() => {
                     const isSbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSbox) {
-                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated in preview mode)</p></div>';
+                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated)</p></div>';
                         document.body.style.opacity = '1';
                     } else {
                         window.location.href = 'auth.html';
                     }
                 }, 600);
             }
-            function toggleMenu() { if (window.innerWidth <= 768) document.getElementById('navLinks').classList.toggle('active'); }
+
+            function toggleMenu() {
+                const navLinks = document.getElementById('navLinks');
+                if (window.innerWidth <= 768) navLinks.classList.toggle('active');
+            }
+
+            function syncUserData() {
+                const sessionStr = localStorage.getItem('crimsonGateUser');
+                if (sessionStr) {
+                    try {
+                        const user = JSON.parse(sessionStr);
+                        const firstName = user.name ? user.name.split(' ')[0] : "Member";
+                        document.getElementById('hero-welcome-msg').innerText = `Welcome back, ${firstName}. Experience unparalleled digital exclusivity and high-fidelity security. Your gateway is active.`;
+
+                        if (user.profileImage) {
+                            document.getElementById('nav-profile-img').src = user.profileImage;
+                            document.getElementById('founder-img').src = user.profileImage;
+                            document.getElementById('wa-profile-pic').src = user.profileImage;
+                        }
+                        if (user.name) {
+                            document.getElementById('founder-name').innerText = user.name;
+                            document.getElementById('wa-name').innerText = user.name;
+                        }
+                        if (user.location) document.getElementById('footer-address').innerText = user.location;
+                        if (user.email) document.getElementById('footer-email').innerText = user.email;
+                        if (user.phone) {
+                            document.getElementById('footer-phone').innerText = user.phone;
+                            // Strip non-digits for WA link
+                            const waNumber = user.phone.replace(/\D/g, '');
+                            document.getElementById('wa-link').href = `https://wa.me/${waNumber}`;
+                        }
+                    } catch (e) { console.error("Identity sync error."); }
+                }
+            }
 
             document.addEventListener('DOMContentLoaded', () => {
                 type();
-                const sessionStr = localStorage.getItem('crimsonGateUser');
-                if (sessionStr) {
-                    const user = JSON.parse(sessionStr);
-                    document.getElementById('hero-welcome-msg').innerText = `Welcome back, ${user.name.split(' ')[0]}. Experience the height of digital luxury and seamless security. Your gateway is active.`;
-                }
+                syncUserData();
             });
         </script>
     </body>

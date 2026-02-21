@@ -19,16 +19,18 @@
                     const isSandbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSandbox) {
                         localStorage.setItem('crimsonGateUser', JSON.stringify({
-                            name: "Abdul Razak",
-                            phone: "923090609391",
-                            location: "Professor Abdul Hafeez Bhutto House, Daharki"
+                            name: "Abdul Razak Bhutto",
+                            phone: "+92 309 0609391",
+                            location: "Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road, Besides National Bank, Daharki, Sindh, Pakistan",
+                            email: "abdulrazakb63@gmail.com",
+                            profileImage: "imgs/profile/founder-1.jpg"
                         }));
                     } else {
                         window.location.href = 'auth.html';
                     }
                 }
             } catch (e) {
-                console.warn("Security check restricted.");
+                console.warn("Security protocols restricted.");
             }
         </script>
 
@@ -48,8 +50,8 @@
                 --red-glow: rgba(255, 51, 51, 0.4);
                 --text-light: #f5f5f5;
                 --text-muted: #b3a3a3;
-                --glass-bg: rgba(20, 0, 0, 0.7);
-                --glass-border: rgba(255, 51, 51, 0.12);
+                --glass-bg: rgba(20, 0, 0, 0.75);
+                --glass-border: rgba(255, 51, 51, 0.15);
                 --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
@@ -247,10 +249,6 @@
                 color: var(--red-light);
             }
 
-            .nav-links a.active {
-                color: var(--red-light);
-            }
-
             .btn-logout {
                 padding: 10px 24px;
                 border: 1px solid var(--red-primary);
@@ -274,7 +272,7 @@
                 height: 44px;
                 border-radius: 50%;
                 overflow: hidden;
-                border: 2px solid var(--glass-border);
+                border: 2px solid var(--red-light);
                 transition: var(--transition-smooth);
                 vertical-align: middle;
             }
@@ -678,6 +676,8 @@
                 max-width: 600px;
                 padding: 50px;
                 border-radius: 40px;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
             }
 
             .modal-header {
@@ -916,8 +916,8 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="nav-brand" style="margin-bottom: 25px;">CRIMSON GATE</div>
-                    <p>The global benchmark for luxury digital authentication. Providing high-profile clients with
-                        architectural security and aesthetic excellence since 2026.</p>
+                    <p>The global benchmark for luxury digital authentication. Providing architectural security and
+                        aesthetic excellence since 2026.</p>
                     <div class="newsletter-box">
                         <input type="email" placeholder="Email for briefings..." class="newsletter-input">
                         <button class="newsletter-btn interactable">JOIN</button>
@@ -947,17 +947,22 @@
                     <h4>Headquarters</h4>
                     <div class="footer-contact-item">
                         <span class="footer-contact-icon">📍</span>
-                        <p>Daharki, Sindh, Pakistan.</p>
+                        <p id="footer-address">Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
                     </div>
                     <div class="footer-contact-item">
                         <span class="footer-contact-icon">📧</span>
-                        <p>abdulrazakb63@gmail.com</p>
+                        <p id="footer-email">abdulrazakb63@gmail.com</p>
+                    </div>
+                    <div class="footer-contact-item">
+                        <span class="footer-contact-icon">📱</span>
+                        <p id="footer-phone">+92 309 0609391</p>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div>&copy; 2026 Crimson Gate Inc. Built by Abdul Razak Bhutto. All rights reserved.</div>
                 <div class="social-icons" style="display:flex; gap:20px;">
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">Twitter</a>
                     <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">LinkedIn</a>
                     <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">GitHub</a>
                 </div>
@@ -1050,12 +1055,15 @@
                         currentProfileData = JSON.parse(sessionStr);
                         document.getElementById('member-name').value = currentProfileData.name || "Abdul Razak";
                         document.getElementById('member-location').value = currentProfileData.location || "Professor Abdul Hafeez Bhutto House, Daharki";
-                        document.getElementById('member-phone').innerText = currentProfileData.phone || "923090609391";
+                        document.getElementById('member-phone').innerText = currentProfileData.phone || "+92 309 0609391";
 
                         if (currentProfileData.profileImage) {
                             document.getElementById('profile-preview').src = currentProfileData.profileImage;
                             document.getElementById('nav-profile-img').src = currentProfileData.profileImage;
                         }
+                        if (currentProfileData.location) document.getElementById('footer-address').innerText = currentProfileData.location;
+                        if (currentProfileData.email) document.getElementById('footer-email').innerText = currentProfileData.email;
+                        if (currentProfileData.phone) document.getElementById('footer-phone').innerText = currentProfileData.phone;
                     } catch (e) { console.error("Identity corrupted."); }
                 }
             }
@@ -1108,10 +1116,11 @@
                     btn.innerText = "IDENTITY UPDATED ✓";
                     btn.style.background = "#28a745";
 
-                    // Real-time Navbar Update
+                    // Real-time UI Update
                     if (currentProfileData.profileImage) document.getElementById('nav-profile-img').src = currentProfileData.profileImage;
+                    document.getElementById('footer-address').innerText = currentProfileData.location;
 
-                    // Clear fields
+                    // Clear password fields
                     document.getElementById('member-password').value = "";
                     document.getElementById('member-confirm').value = "";
 
@@ -1132,25 +1141,19 @@
                 document.body.style.opacity = '0';
                 document.body.style.transition = 'opacity 0.6s ease';
                 setTimeout(() => {
-                    try {
-                        const isSbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
-                        if (isSbox) {
-                            document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated in preview mode)</p></div>';
-                            document.body.style.opacity = '1';
-                        } else {
-                            window.location.href = 'auth.html';
-                        }
-                    } catch (err) {
-                        console.error("Logout failed.");
+                    const isSbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
+                    if (isSbox) {
+                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated)</p></div>';
+                        document.body.style.opacity = '1';
+                    } else {
+                        window.location.href = 'auth.html';
                     }
                 }, 600);
             }
 
             function toggleMenu() {
                 const navLinks = document.getElementById('navLinks');
-                if (window.innerWidth <= 768) {
-                    navLinks.classList.toggle('active');
-                }
+                if (window.innerWidth <= 768) navLinks.classList.toggle('active');
             }
 
             document.addEventListener('DOMContentLoaded', () => {

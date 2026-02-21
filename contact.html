@@ -18,13 +18,19 @@
                 if (!sessionData) {
                     const isSandbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSandbox) {
-                        localStorage.setItem('crimsonGateUser', JSON.stringify({ name: "Abdul Razak", phone: "923090609391" }));
+                        localStorage.setItem('crimsonGateUser', JSON.stringify({
+                            name: "Abdul Razak Bhutto",
+                            phone: "+92 309 0609391",
+                            location: "Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road, Besides National Bank, Daharki, Sindh, Pakistan",
+                            email: "abdulrazakb63@gmail.com",
+                            profileImage: "imgs/profile/founder-1.jpg"
+                        }));
                     } else {
                         window.location.href = 'auth.html';
                     }
                 }
             } catch (e) {
-                console.warn("Auth check restricted in this environment.");
+                console.warn("Auth check restricted.");
             }
         </script>
 
@@ -44,8 +50,8 @@
                 --red-glow: rgba(255, 51, 51, 0.4);
                 --text-light: #f5f5f5;
                 --text-muted: #b3a3a3;
-                --glass-bg: rgba(20, 0, 0, 0.7);
-                --glass-border: rgba(255, 51, 51, 0.12);
+                --glass-bg: rgba(20, 0, 0, 0.75);
+                --glass-border: rgba(255, 51, 51, 0.15);
                 --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
 
@@ -247,6 +253,21 @@
                 color: var(--red-light);
             }
 
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background-color: var(--red-light);
+                transition: var(--transition-smooth);
+            }
+
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+
             .btn-logout {
                 padding: 10px 24px;
                 border: 1px solid var(--red-primary);
@@ -275,6 +296,12 @@
                 vertical-align: middle;
             }
 
+            .profile-link:hover {
+                border-color: var(--red-light);
+                transform: scale(1.1);
+                box-shadow: 0 0 15px var(--red-glow);
+            }
+
             .profile-img {
                 width: 100%;
                 height: 100%;
@@ -291,7 +318,7 @@
 
             /* --- HERO SECTION & 3D TYPEWRITER --- */
             #hero-contact {
-                min-height: 80vh;
+                min-height: 70vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -312,7 +339,7 @@
             }
 
             .typewriter-h1 {
-                font-size: 6vw;
+                font-size: 5.5vw;
                 line-height: 1.1;
                 color: white;
                 min-height: 1.2em;
@@ -373,7 +400,7 @@
                 z-index: 10;
                 max-width: 1300px;
                 margin: 0 auto;
-                padding: 120px 40px;
+                padding: 100px 40px;
             }
 
             .section-title {
@@ -573,7 +600,7 @@
                 text-shadow: 0 0 10px var(--red-light);
             }
 
-            /* --- OVERHAULED LARGE FOOTER --- */
+            /* --- FOOTER OVERHAUL --- */
             .site-footer {
                 background: rgba(5, 0, 0, 0.95);
                 border-top: 1px solid var(--glass-border);
@@ -659,7 +686,7 @@
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid var(--glass-border);
                 border-radius: 8px;
-                padding: 10px 15px;
+                padding: 12px 15px;
                 color: white;
                 flex-grow: 1;
                 font-family: inherit;
@@ -684,22 +711,7 @@
                 font-size: 13px;
             }
 
-            .social-icons {
-                display: flex;
-                gap: 20px;
-            }
-
-            .social-icons a {
-                color: var(--text-muted);
-                transition: var(--transition-smooth);
-            }
-
-            .social-icons a:hover {
-                color: var(--red-light);
-                transform: translateY(-3px);
-            }
-
-            /* --- MODALS --- */
+            /* Modals */
             .modal-overlay {
                 position: fixed;
                 top: 0;
@@ -727,6 +739,8 @@
                 max-width: 600px;
                 padding: 50px;
                 border-radius: 40px;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
             }
 
             .modal-header {
@@ -886,11 +900,12 @@
             <div class="wa-card-container">
                 <div class="wa-card interactable">
                     <div class="wa-profile-wrapper">
-                        <img src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto" class="wa-profile-pic">
+                        <img id="wa-profile-pic" src="imgs/profile/founder-1.jpg" alt="Abdul Razak Bhutto"
+                            class="wa-profile-pic">
                         <div class="wa-online-dot"></div>
                     </div>
 
-                    <h3 class="brand-font wa-name">Abdul Razak Bhutto</h3>
+                    <h3 class="brand-font wa-name" id="wa-name">Abdul Razak Bhutto</h3>
                     <span class="wa-title">Lead Software Engineer</span>
 
                     <p class="wa-details">
@@ -899,7 +914,7 @@
                         high-fidelity channels.
                     </p>
 
-                    <a href="https://wa.me/923090609391" target="_blank" rel="noopener noreferrer"
+                    <a id="wa-link" href="https://wa.me/923090609391" target="_blank" rel="noopener noreferrer"
                         class="wa-btn interactable">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
                             <path
@@ -915,15 +930,15 @@
                 <div class="contact-box interactable">
                     <span class="contact-icon">🏛️</span>
                     <h4 class="brand-font">Global Headquarters</h4>
-                    <p>Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road, Daharki, Sindh,
-                        Pakistan.</p>
+                    <p id="hq-address">Professor Abdul Hafeez Bhutto House, Mohalla Bhutta, National Highway Road,
+                        Daharki, Sindh, Pakistan.</p>
                 </div>
                 <!-- EMAIL BOX -->
                 <div class="contact-box interactable">
                     <span class="contact-icon">🔐</span>
                     <h4 class="brand-font">Encrypted Email</h4>
                     <p>For official architectural briefings, security documentation, or formalized business inquiry:</p>
-                    <a href="mailto:abdulrazakb63@gmail.com">abdulrazakb63@gmail.com</a>
+                    <a id="hq-email" href="mailto:abdulrazakb63@gmail.com">abdulrazakb63@gmail.com</a>
                 </div>
                 <!-- HOURS BOX -->
                 <div class="contact-box interactable">
@@ -970,24 +985,24 @@
                     <h4>Headquarters</h4>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📍</div>
-                        <p>Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
+                        <p id="footer-address">Professor Abdul Hafeez Bhutto House, Daharki, Sindh, Pakistan.</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📧</div>
-                        <p>abdulrazakb63@gmail.com</p>
+                        <p id="footer-email">abdulrazakb63@gmail.com</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">📱</div>
-                        <p>+92 309 0609391</p>
+                        <p id="footer-phone">+92 309 0609391</p>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <div>&copy; 2026 Crimson Gate Inc. Built by Abdul Razak Bhutto. All rights reserved.</div>
-                <div class="social-icons">
-                    <a href="#" class="interactable">Twitter</a>
-                    <a href="#" class="interactable">LinkedIn</a>
-                    <a href="#" class="interactable">GitHub</a>
+                <div class="social-icons" style="display:flex; gap:20px;">
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">Twitter</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">LinkedIn</a>
+                    <a href="#" class="interactable" style="color:var(--text-muted); text-decoration:none;">GitHub</a>
                 </div>
             </div>
         </footer>
@@ -1005,7 +1020,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal-overlay" id="modal-terms" onclick="closeModalOnOutside(event, 'modal-terms')">
             <div class="glass-panel modal-content">
                 <div class="modal-header">
@@ -1013,12 +1027,11 @@
                         onclick="closeModal('modal-terms')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Communication via the secure dispatch channel must adhere to professional protocols. Spam or
-                        malicious payloads result in immediate permanent blocking of the originating ID.</p>
+                    <p>Communication via the secure dispatch channel must adhere to professional protocols. Malicious
+                        payloads result in immediate permanent blocking.</p>
                 </div>
             </div>
         </div>
-
         <div class="modal-overlay" id="modal-security" onclick="closeModalOnOutside(event, 'modal-security')">
             <div class="glass-panel modal-content">
                 <div class="modal-header">
@@ -1026,8 +1039,8 @@
                         onclick="closeModal('modal-security')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Direct lines utilize industry-leading E2EE protocols. Architectural briefings are sanitized and
-                        encrypted before being processed by our secure local nodes.</p>
+                    <p>Our architecture utilizes high-entropy verification and sanitized DOM logic to protect
+                        high-profile digital identities.</p>
                 </div>
             </div>
         </div>
@@ -1070,10 +1083,11 @@
             document.addEventListener('mouseup', () => cur.classList.remove('clicking'));
             document.querySelectorAll('button, input, a, .interactable').forEach(el => { el.addEventListener('mouseenter', () => cur.classList.add('hovering')); el.addEventListener('mouseleave', () => cur.classList.remove('hovering')); });
 
-            // --- MODAL & AUTH ---
+            // --- AUTH, SYNC & MODALS ---
             function openModal(id, e) { if (e) e.preventDefault(); document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
             function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
             function closeModalOnOutside(e, id) { if (e.target.id === id) closeModal(id); }
+
             function logout() {
                 localStorage.removeItem('crimsonGateUser');
                 document.body.style.opacity = '0';
@@ -1081,23 +1095,52 @@
                 setTimeout(() => {
                     const isSbox = window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null';
                     if (isSbox) {
-                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated in preview mode)</p></div>';
+                        document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; text-align:center; background:#0a0000; color:white;"><h2 style="font-family:\'Playfair Display\',serif; color:#ff3333; margin-bottom:10px;">Logged Out Successfully</h2><p style="color:#b3a3a3; font-family:\'Poppins\',sans-serif;">(Redirect simulated)</p></div>';
                         document.body.style.opacity = '1';
                     } else {
                         window.location.href = 'auth.html';
                     }
                 }, 600);
             }
-            function toggleMenu() { if (window.innerWidth <= 768) document.getElementById('navLinks').classList.toggle('active'); }
+
+            function toggleMenu() {
+                const navLinks = document.getElementById('navLinks');
+                if (window.innerWidth <= 768) navLinks.classList.toggle('active');
+            }
+
+            function syncUserData() {
+                const sessionStr = localStorage.getItem('crimsonGateUser');
+                if (sessionStr) {
+                    try {
+                        const user = JSON.parse(sessionStr);
+                        if (user.profileImage) {
+                            document.getElementById('nav-profile-img').src = user.profileImage;
+                            document.getElementById('wa-profile-pic').src = user.profileImage;
+                        }
+                        if (user.name) {
+                            document.getElementById('wa-name').innerText = user.name;
+                        }
+                        if (user.location) {
+                            document.getElementById('footer-address').innerText = user.location;
+                            document.getElementById('hq-address').innerText = user.location;
+                        }
+                        if (user.email) {
+                            document.getElementById('footer-email').innerText = user.email;
+                            document.getElementById('hq-email').innerText = user.email;
+                            document.getElementById('hq-email').href = `mailto:${user.email}`;
+                        }
+                        if (user.phone) {
+                            document.getElementById('footer-phone').innerText = user.phone;
+                            const waNumber = user.phone.replace(/\D/g, '');
+                            document.getElementById('wa-link').href = `https://wa.me/${waNumber}`;
+                        }
+                    } catch (e) { console.error("Identity sync error."); }
+                }
+            }
 
             document.addEventListener('DOMContentLoaded', () => {
                 type();
-                const sessionStr = localStorage.getItem('crimsonGateUser');
-                if (sessionStr) {
-                    const user = JSON.parse(sessionStr);
-                    // Update nav profile if custom exists
-                    if (user.profileImage) document.getElementById('nav-profile-img').src = user.profileImage;
-                }
+                syncUserData();
             });
         </script>
     </body>
