@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Crimson Gate | Luxury Authentication</title>
+
+        <!-- Browser Tab Icon (Favicon) -->
+        <link rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239e0000' stroke='%23ff3333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>"
+            type="image/svg+xml">
+
+        <!-- Elegant Fonts for Luxury Feel -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet">
+        <style>
+            /* --- DESIGN TOKENS & VARIABLES --- */
+            :root {
+                --bg-dark: #0a0000;
+                --red-darkest: #240000;
+                --red-dark: #5c0000;
+                --red-primary: #9e0000;
+                --red-light: #ff3333;
+                --red-glow: rgba(255, 51, 51, 0.4);
+
+                --text-light: #f5f5f5;
+                --text-muted: #b3a3a3;
+
+                --glass-bg: rgba(20, 0, 0, 0.65);
+                --glass-border: rgba(255, 51, 51, 0.15);
+
+                --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            /* --- GLOBAL RESETS & TYPOGRAPHY --- */
+            html {
+                scroll-behavior: smooth;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                /* Hide default cursor globally for our custom cursor */
+                cursor: none !important;
+            }
+
+            /* --- HIDE SCROLLBAR --- */
+            * {
+                scrollbar-width: none;
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: var(--bg-dark);
+                color: var(--text-light);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow-x: hidden;
+                overflow-y: auto;
+                position: relative;
+            }
+
+            h1,
+            h2,
+            h3,
+            .brand-font {
+                font-family: 'Playfair Display', serif;
+            }
+
+            /* --- CUSTOM ZERO-LATENCY CURSOR --- */
+            .custom-cursor {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 24px;
+                height: 24px;
+                pointer-events: none;
+                z-index: 99999;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            }
+
+            .custom-cursor.visible {
+                opacity: 1;
+            }
+
+            .custom-cursor svg {
+                width: 100%;
+                height: 100%;
+                fill: var(--red-light);
+                filter: drop-shadow(0 0 6px var(--red-light));
+                transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+                transform-origin: top left;
+            }
+
+            .custom-cursor.hovering svg {
+                transform: scale(1.3) rotate(5deg);
+                fill: var(--red-primary);
+                filter: drop-shadow(0 0 10px var(--red-primary));
+            }
+
+            .custom-cursor.clicking svg {
+                transform: scale(0.8) rotate(-5deg);
+                fill: #ffffff;
+                filter: drop-shadow(0 0 15px #ffffff);
+            }
+
+            /* --- AMBIENT BACKGROUND ANIMATION --- */
+            .ambient-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: 0;
+                overflow: hidden;
+                background: radial-gradient(circle at 50% 50%, var(--red-darkest) 0%, var(--bg-dark) 100%);
+            }
+
+            .orb {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(80px);
+                opacity: 0.5;
+                animation: float 20s infinite ease-in-out alternate;
+            }
+
+            .orb-1 {
+                width: 400px;
+                height: 400px;
+                background: var(--red-dark);
+                top: -10%;
+                left: -10%;
+            }
+
+            .orb-2 {
+                width: 500px;
+                height: 500px;
+                background: var(--red-primary);
+                bottom: -20%;
+                right: -10%;
+                animation-delay: -5s;
+            }
+
+            .orb-3 {
+                width: 300px;
+                height: 300px;
+                background: var(--red-light);
+                top: 40%;
+                left: 50%;
+                opacity: 0.15;
+                animation-delay: -10s;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                }
+
+                50% {
+                    transform: translate(50px, 30px) scale(1.1);
+                }
+
+                100% {
+                    transform: translate(-30px, 50px) scale(0.9);
+                }
+            }
+
+            /* --- MAIN CONTAINER & GLASSMORPHISM --- */
+            .auth-container {
+                position: relative;
+                z-index: 10;
+                width: 100%;
+                max-width: 420px;
+                padding: 20px;
+                perspective: 1000px;
+            }
+
+            .glass-panel {
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border);
+                border-top: 1px solid rgba(255, 51, 51, 0.3);
+                border-left: 1px solid rgba(255, 51, 51, 0.3);
+                border-radius: 24px;
+                padding: 40px 35px;
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 51, 51, 0.05);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Form states (Dynamic Sizing) */
+            .auth-form {
+                display: none;
+            }
+
+            .auth-form.active {
+                display: block;
+                animation: fadeSlideUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            }
+
+            @keyframes fadeSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(15px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* --- HEADER --- */
+            .brand-header {
+                text-align: center;
+                margin-bottom: 35px;
+            }
+
+            .brand-logo {
+                width: 48px;
+                height: 48px;
+                margin: 0 auto 15px;
+                background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 20px var(--red-glow);
+            }
+
+            .brand-header h1 {
+                font-size: 26px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                background: linear-gradient(to right, #fff, var(--text-muted));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .brand-header p {
+                font-size: 13px;
+                color: var(--text-muted);
+                margin-top: 5px;
+            }
+
+            /* --- INPUT FIELDS (FLOATING LABELS) --- */
+            .input-group {
+                position: relative;
+                margin-bottom: 25px;
+            }
+
+            .input-control {
+                width: 100%;
+                background: transparent;
+                border: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+                padding: 12px 10px 12px 40px;
+                font-size: 16px;
+                color: var(--text-light);
+                font-family: inherit;
+                transition: var(--transition-smooth);
+            }
+
+            .input-control:focus,
+            .input-control:not(:placeholder-shown) {
+                outline: none;
+                border-bottom-color: var(--red-light);
+            }
+
+            .input-label {
+                position: absolute;
+                top: 12px;
+                left: 40px;
+                color: var(--text-muted);
+                font-size: 15px;
+                pointer-events: none;
+                transition: var(--transition-smooth);
+            }
+
+            .input-control:focus~.input-label,
+            .input-control:not(:placeholder-shown)~.input-label {
+                top: -12px;
+                left: 0;
+                font-size: 12px;
+                color: var(--red-light);
+                font-weight: 500;
+            }
+
+            .input-icon {
+                position: absolute;
+                top: 12px;
+                left: 5px;
+                color: var(--text-muted);
+                transition: var(--transition-smooth);
+                width: 20px;
+                height: 20px;
+            }
+
+            .input-control:focus~.input-icon {
+                color: var(--red-light);
+            }
+
+            .password-toggle {
+                position: absolute;
+                top: 12px;
+                right: 5px;
+                color: var(--text-muted);
+                transition: var(--transition-smooth);
+                width: 20px;
+                height: 20px;
+            }
+
+            .password-toggle:hover {
+                color: var(--text-light);
+            }
+
+            /* --- PIN INPUT SPECIAL STYLING --- */
+            .pin-input {
+                text-align: center;
+                letter-spacing: 6px;
+                font-size: 22px;
+                font-weight: 600;
+                padding-left: 10px;
+                /* override default padding */
+            }
+
+            .pin-input:focus~.input-label,
+            .pin-input:not(:placeholder-shown)~.input-label {
+                left: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            /* --- TIMER --- */
+            .timer-display {
+                text-align: center;
+                font-size: 28px;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 300;
+                color: var(--red-light);
+                margin-bottom: 25px;
+                text-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+            }
+
+            .timer-display.expired {
+                color: var(--text-muted);
+                text-shadow: none;
+            }
+
+            /* --- UTILITY & LINKS --- */
+            .form-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+                font-size: 13px;
+            }
+
+            .checkbox-container {
+                display: flex;
+                align-items: center;
+                user-select: none;
+            }
+
+            .checkbox-container input {
+                position: absolute;
+                opacity: 0;
+                height: 0;
+                width: 0;
+            }
+
+            .checkmark {
+                height: 16px;
+                width: 16px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+                margin-right: 8px;
+                position: relative;
+                transition: var(--transition-smooth);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .checkbox-container:hover input~.checkmark {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .checkbox-container input:checked~.checkmark {
+                background-color: var(--red-light);
+                border-color: var(--red-light);
+                box-shadow: 0 0 10px var(--red-glow);
+            }
+
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+                left: 5px;
+                top: 2px;
+                width: 4px;
+                height: 8px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+
+            .checkbox-container input:checked~.checkmark:after {
+                display: block;
+            }
+
+            .text-link {
+                color: var(--text-muted);
+                text-decoration: none;
+                transition: var(--transition-smooth);
+                position: relative;
+            }
+
+            .text-link:hover {
+                color: var(--red-light);
+            }
+
+            .text-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 1px;
+                bottom: -2px;
+                left: 0;
+                background-color: var(--red-light);
+                transition: var(--transition-smooth);
+            }
+
+            .text-link:hover::after {
+                width: 100%;
+            }
+
+            .text-link.disabled {
+                pointer-events: none;
+                opacity: 0.4;
+            }
+
+            .text-link.disabled::after {
+                display: none;
+            }
+
+            /* --- BUTTONS --- */
+            .btn-primary {
+                width: 100%;
+                padding: 14px;
+                border: none;
+                border-radius: 8px;
+                background: linear-gradient(90deg, var(--red-primary), var(--red-light));
+                color: white;
+                font-family: inherit;
+                font-weight: 600;
+                font-size: 15px;
+                transition: var(--transition-smooth);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(255, 51, 51, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
+                background: linear-gradient(90deg, #b30000, #ff4d4d);
+            }
+
+            .btn-primary:active {
+                transform: translateY(1px);
+            }
+
+            .btn-primary .spinner {
+                display: none;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                border-top-color: #fff;
+                animation: spin 1s ease-in-out infinite;
+                margin-right: 10px;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .btn-primary.loading .btn-text {
+                display: none;
+            }
+
+            .btn-primary.loading .spinner {
+                display: block;
+            }
+
+            /* --- FOOTER / SWITCH TEXT --- */
+            .form-footer {
+                margin-top: 25px;
+                text-align: center;
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+
+            /* --- POPUP OVERLAY (FOR PIN) --- */
+            .popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(10, 0, 0, 0.8);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition-smooth);
+            }
+
+            .popup-overlay.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .popup-content {
+                width: 90%;
+                max-width: 380px;
+                text-align: center;
+                transform: translateY(20px) scale(0.95);
+                transition: var(--transition-smooth);
+                /* Overriding glass-panel specific dimensions for the popup */
+                min-height: auto;
+                padding: 35px 30px;
+            }
+
+            .popup-overlay.show .popup-content {
+                transform: translateY(0) scale(1);
+            }
+
+            .popup-content h2 {
+                font-size: 20px;
+                margin-bottom: 12px;
+                color: var(--text-light);
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .popup-content p {
+                font-size: 14px;
+                color: var(--text-muted);
+                margin-bottom: 25px;
+                line-height: 1.5;
+            }
+
+            .popup-pin-display {
+                font-size: 32px;
+                font-weight: 700;
+                letter-spacing: 10px;
+                color: var(--red-light);
+                margin-bottom: 30px;
+                text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
+                background: rgba(0, 0, 0, 0.4);
+                padding: 15px 10px 15px 20px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 51, 51, 0.2);
+                user-select: all;
+                /* Makes it easy to copy */
+            }
+
+            /* --- TOAST NOTIFICATIONS --- */
+            .toast-container {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .toast {
+                background: rgba(20, 0, 0, 0.9);
+                border-left: 4px solid var(--red-light);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 6px;
+                font-size: 14px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                transform: translateX(120%);
+                transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                backdrop-filter: blur(10px);
+                max-width: 320px;
+                line-height: 1.5;
+            }
+
+            .toast.show {
+                transform: translateX(0);
+            }
+
+            .toast.success {
+                border-left-color: #25D366;
+                /* WhatsApp Green */
+            }
+
+            .toast.error {
+                border-left-color: var(--red-light);
+            }
+
+            /* Mobile Responsiveness */
+            @media (max-width: 480px) {
+                .glass-panel {
+                    padding: 30px 20px;
+                }
+
+                .custom-cursor {
+                    display: none;
+                }
+
+                * {
+                    cursor: auto !important;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Animated Custom Glowing Cursor -->
+        <div class="custom-cursor" id="customCursor">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 3 L20 11 L13 13 L10 20 Z" />
+            </svg>
+        </div>
+
+        <!-- Ambient Animated Background -->
+        <div class="ambient-bg">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+
+        <!-- PIN Display Popup -->
+        <div id="pin-popup" class="popup-overlay">
+            <div class="popup-content glass-panel">
+                <h2>💬 WhatsApp Simulator</h2>
+                <p>In a real production environment, this code would be sent to your phone. For testing, your PIN is:
+                </p>
+                <div class="popup-pin-display brand-font" id="popup-pin-text">12345678</div>
+                <button class="btn-primary interactable" onclick="closePinPopup()">
+                    <span class="btn-text">Got It</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <div class="auth-container">
+            <div class="glass-panel">
+
+                <!-- HEADER LOGO -->
+                <div class="brand-header" id="brandHeader">
+                    <div class="brand-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h1>CRIMSON GATE</h1>
+                    <p>Secure. Elegant. Exclusive.</p>
+                </div>
+
+                <!-- ================= LOGIN FORM (Phone + Password) ================= -->
+                <form id="form-login" class="auth-form active" onsubmit="handleAuth(event, 'login')">
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <input type="tel" id="login-phone" class="input-control" placeholder=" " required
+                            pattern="[0-9]{12}" maxlength="12" autocomplete="off">
+                        <label class="input-label" for="login-phone">Phone (12 digits e.g. 923001234567)</label>
+                    </div>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="login-password" class="input-control" placeholder=" " required
+                            autocomplete="off">
+                        <label class="input-label" for="login-password">Password</label>
+                        <svg class="password-toggle interactable" onclick="togglePassword('login-password')"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="checkbox-container interactable" for="remember-me">
+                            <input type="checkbox" id="remember-me">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <span class="text-link interactable" onclick="switchForm('form-forgot')">Forgot Password?</span>
+                    </div>
+
+                    <button type="submit" class="btn-primary interactable" id="btn-login">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Sign In</span>
+                    </button>
+
+                    <div class="form-footer">
+                        New to Crimson Gate? <span class="text-link interactable"
+                            onclick="switchForm('form-register')">Request Access</span>
+                    </div>
+                </form>
+
+                <!-- ================= REGISTER FORM (Phone + Password) ================= -->
+                <form id="form-register" class="auth-form" onsubmit="handleAuth(event, 'register')">
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <input type="text" id="reg-name" class="input-control" placeholder=" " required
+                            autocomplete="off">
+                        <label class="input-label" for="reg-name">Full Name</label>
+                    </div>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <input type="tel" id="reg-phone" class="input-control" placeholder=" " required
+                            pattern="[0-9]{12}" maxlength="12" autocomplete="off">
+                        <label class="input-label" for="reg-phone">Phone (12 digits e.g. 923001234567)</label>
+                    </div>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="reg-password" class="input-control" placeholder=" " required
+                            minlength="8" autocomplete="off">
+                        <label class="input-label" for="reg-password">Create Password (8+ chars)</label>
+                        <svg class="password-toggle interactable" onclick="togglePassword('reg-password')"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+
+                    <button type="submit" class="btn-primary interactable" id="btn-register" style="margin-top: 10px;">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Create Account</span>
+                    </button>
+
+                    <div class="form-footer">
+                        Already registered? <span class="text-link interactable" onclick="switchForm('form-login')">Sign
+                            In</span>
+                    </div>
+                </form>
+
+                <!-- ================= FORGOT PASSWORD FORM (Triggers WhatsApp PIN) ================= -->
+                <form id="form-forgot" class="auth-form" onsubmit="handleAuth(event, 'forgot')">
+                    <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 30px;">
+                        Enter your registered phone number. We will send an 8-digit PIN via WhatsApp to verify your
+                        identity.
+                    </p>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <input type="tel" id="forgot-phone" class="input-control" placeholder=" " required
+                            pattern="[0-9]{12}" maxlength="12" autocomplete="off">
+                        <label class="input-label" for="forgot-phone">Registered Phone Number</label>
+                    </div>
+
+                    <button type="submit" class="btn-primary interactable" id="btn-forgot">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Send WhatsApp PIN</span>
+                    </button>
+
+                    <div class="form-footer">
+                        <span class="text-link interactable" onclick="switchForm('form-login')">← Return to Login</span>
+                    </div>
+                </form>
+
+                <!-- ================= RECOVERY PIN VERIFICATION FORM ================= -->
+                <form id="form-verify" class="auth-form" onsubmit="verifyPin(event)">
+                    <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">
+                        Enter the 8-digit PIN sent to your WhatsApp number to bypass the password. Valid for 1 minute.
+                    </p>
+
+                    <div class="input-group">
+                        <input type="text" id="verify-pin" class="input-control pin-input" placeholder=" " required
+                            pattern="[0-9]{8}" maxlength="8" autocomplete="off">
+                        <label class="input-label" for="verify-pin">8-Digit PIN</label>
+                    </div>
+
+                    <div class="timer-display" id="pin-timer">01:00</div>
+
+                    <button type="submit" class="btn-primary interactable" id="btn-verify">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Verify PIN</span>
+                    </button>
+
+                    <div class="form-footer">
+                        Didn't receive it? <span class="text-link interactable disabled" id="btn-resend"
+                            onclick="resendPin()">Resend PIN</span>
+                    </div>
+                    <div class="form-footer" style="margin-top: 10px;">
+                        <span class="text-link interactable" onclick="switchForm('form-login')">← Cancel</span>
+                    </div>
+                </form>
+
+                <!-- ================= RESET PASSWORD FORM ================= -->
+                <form id="form-reset" class="auth-form" onsubmit="handlePasswordReset(event)">
+                    <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">
+                        Verification successful. Please create a new password below.
+                    </p>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="reset-password" class="input-control" placeholder=" " required
+                            minlength="8" autocomplete="off">
+                        <label class="input-label" for="reset-password">New Password (8+ chars)</label>
+                        <svg class="password-toggle interactable" onclick="togglePassword('reset-password')"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="input-group">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="reset-confirm" class="input-control" placeholder=" " required
+                            minlength="8" autocomplete="off">
+                        <label class="input-label" for="reset-confirm">Confirm New Password</label>
+                        <svg class="password-toggle interactable" onclick="togglePassword('reset-confirm')"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+
+                    <button type="submit" class="btn-primary interactable" id="btn-reset">
+                        <span class="spinner"></span>
+                        <span class="btn-text">Update Password</span>
+                    </button>
+
+                    <div class="form-footer">
+                        <span class="text-link interactable" onclick="switchForm('form-login')">← Back to Login</span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- JavaScript Logic -->
+        <script>
+            // --- Custom Zero-Latency Cursor Logic ---
+            const cursor = document.getElementById('customCursor');
+            let isCursorVisible = false;
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isCursorVisible) {
+                    cursor.classList.add('visible');
+                    isCursorVisible = true;
+                }
+                cursor.style.transform = `translate3d(${e.clientX - 2}px, ${e.clientY - 2}px, 0)`;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursor.classList.remove('visible');
+                isCursorVisible = false;
+            });
+
+            document.addEventListener('mouseenter', () => {
+                cursor.classList.add('visible');
+                isCursorVisible = true;
+            });
+
+            document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+            document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
+
+            const interactables = document.querySelectorAll('button, input, .interactable');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+            });
+
+            // --- Mock Database ---
+            // Pre-seeded with your sample data to allow immediate login testing with a password
+            const usersDB = [
+                { name: "Abdul Razak", phone: "923001234567", password: "password123" }
+            ];
+
+            // --- Recovery PIN State Management ---
+            let recoveryState = {
+                phone: '',
+                name: '',
+                pin: '',
+                expiry: 0,
+                timerId: null
+            };
+
+            // --- Form Navigation ---
+            function switchForm(targetId) {
+                document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                const target = document.getElementById(targetId);
+                if (target) target.classList.add('active');
+
+                // Clear verification fields when leaving the verify form
+                if (targetId !== 'form-verify') {
+                    document.getElementById('verify-pin').value = '';
+                    if (recoveryState.timerId) clearInterval(recoveryState.timerId);
+                }
+            }
+
+            // --- Password Visibility Toggle ---
+            function togglePassword(inputId) {
+                const input = document.getElementById(inputId);
+                const icon = input.nextElementSibling.nextElementSibling;
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                } else {
+                    input.type = "password";
+                    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                }
+            }
+
+            // --- Custom Toast Notification ---
+            function showToast(message, type = 'success', duration = 4000) {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = message;
+
+                container.appendChild(toast);
+
+                setTimeout(() => toast.classList.add('show'), 10);
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 400);
+                }, duration);
+            }
+
+            // --- PIN Popup Controls ---
+            function showPinPopup(pin) {
+                document.getElementById('popup-pin-text').innerText = pin;
+                document.getElementById('pin-popup').classList.add('show');
+            }
+
+            function closePinPopup() {
+                document.getElementById('pin-popup').classList.remove('show');
+                setTimeout(() => {
+                    document.getElementById('verify-pin').focus();
+                }, 300); // Focus input after popup closes
+            }
+
+            // --- Safe Navigation Helper ---
+            // Prevents SyntaxError when trying to navigate in sandboxed iframes (like the preview environment)
+            function redirectToHomepage() {
+                try {
+                    // If running inside a restricted preview or blob URI where relative URLs fail
+                    if (window.location.protocol === 'blob:' || window.location.protocol === 'about:' || window.location.origin === 'null') {
+                        showToast('Authentication complete! (Redirect to index.html simulated in preview mode)', 'success', 5000);
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                } catch (e) {
+                    showToast('Authentication complete! (Redirect simulated)', 'success', 5000);
+                }
+            }
+
+            // --- Initiate Authentication (Login / Register / Forgot) ---
+            function handleAuth(event, type) {
+                event.preventDefault();
+
+                const btn = document.getElementById(`btn-${type}`);
+                btn.classList.add('loading');
+
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+
+                    if (type === 'login') {
+                        const phone = document.getElementById('login-phone').value;
+                        const pass = document.getElementById('login-password').value;
+
+                        if (!/^\d{12}$/.test(phone)) {
+                            showToast('Please enter a valid 12-digit phone number', 'error');
+                            return;
+                        }
+
+                        // Strict matching of both phone AND password
+                        const user = usersDB.find(u => u.phone === phone && u.password === pass);
+
+                        if (user) {
+                            localStorage.setItem('crimsonGateUser', JSON.stringify({
+                                name: user.name,
+                                phone: user.phone
+                            }));
+                            showToast(`Welcome back, ${user.name}. Opening the Gate...`, 'success');
+                            setTimeout(() => redirectToHomepage(), 1500);
+                        } else {
+                            showToast('Invalid phone number or password', 'error');
+                        }
+                    }
+                    else if (type === 'register') {
+                        const name = document.getElementById('reg-name').value;
+                        const phone = document.getElementById('reg-phone').value;
+                        const pass = document.getElementById('reg-password').value;
+
+                        if (!/^\d{12}$/.test(phone)) {
+                            showToast('Please enter a valid 12-digit phone number', 'error');
+                            return;
+                        }
+                        if (pass.length < 8) {
+                            showToast('Password must be at least 8 characters', 'error');
+                            return;
+                        }
+
+                        // Prevent duplicate accounts
+                        if (usersDB.some(u => u.phone === phone)) {
+                            showToast('This phone number is already registered. Please sign in.', 'error');
+                            return;
+                        }
+
+                        // Register new user 
+                        usersDB.push({ name: name, phone: phone, password: pass });
+                        showToast('Account created successfully. Please sign in.', 'success');
+                        switchForm('form-login');
+                        document.getElementById('form-register').reset();
+                    }
+                    else if (type === 'forgot') {
+                        const phone = document.getElementById('forgot-phone').value;
+
+                        if (!/^\d{12}$/.test(phone)) {
+                            showToast('Please enter a valid 12-digit phone number', 'error');
+                            return;
+                        }
+
+                        // Check if user exists before sending recovery PIN
+                        const user = usersDB.find(u => u.phone === phone);
+
+                        if (user) {
+                            recoveryState.phone = user.phone;
+                            recoveryState.name = user.name;
+                            triggerWhatsAppRecovery();
+                        } else {
+                            showToast('Unrecognized phone number. Please register first.', 'error');
+                        }
+                    }
+                }, 800);
+            }
+
+            // --- Generate PIN & Start Countdown for Password Recovery ---
+            function triggerWhatsAppRecovery() {
+                // Generate strictly 8-digit random PIN
+                recoveryState.pin = Math.floor(10000000 + Math.random() * 90000000).toString();
+
+                // Set Expiry exactly 60 seconds from now
+                recoveryState.expiry = Date.now() + 60000;
+
+                // Show the generated PIN in the custom popup instead of toast
+                showPinPopup(recoveryState.pin);
+
+                switchForm('form-verify');
+                startTimer();
+            }
+
+            function resendPin() {
+                // Only allow resend if timer is expired
+                if (Date.now() < recoveryState.expiry) return;
+                triggerWhatsAppRecovery();
+            }
+
+            function startTimer() {
+                if (recoveryState.timerId) clearInterval(recoveryState.timerId);
+
+                const timerDisplay = document.getElementById('pin-timer');
+                const resendBtn = document.getElementById('btn-resend');
+
+                timerDisplay.classList.remove('expired');
+                resendBtn.classList.add('disabled');
+
+                function updateDisplay() {
+                    const now = Date.now();
+                    const timeLeft = Math.max(0, Math.round((recoveryState.expiry - now) / 1000));
+
+                    const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                    const secs = (timeLeft % 60).toString().padStart(2, '0');
+
+                    timerDisplay.innerText = `${mins}:${secs}`;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(recoveryState.timerId);
+                        timerDisplay.classList.add('expired');
+                        resendBtn.classList.remove('disabled');
+                    }
+                }
+
+                updateDisplay(); // update immediately
+                recoveryState.timerId = setInterval(updateDisplay, 1000);
+            }
+
+            // --- Final Verify PIN execution ---
+            function verifyPin(event) {
+                event.preventDefault();
+
+                const btn = document.getElementById('btn-verify');
+                const inputPin = document.getElementById('verify-pin').value;
+
+                btn.classList.add('loading');
+
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+
+                    // 1. Check if PIN expired
+                    if (Date.now() > recoveryState.expiry) {
+                        showToast('This PIN has expired. Please request a new one.', 'error');
+                        return;
+                    }
+
+                    // 2. Check if PIN is correct
+                    if (inputPin !== recoveryState.pin) {
+                        showToast('Invalid PIN. Please try again.', 'error');
+                        return;
+                    }
+
+                    // 3. Success Workflow - Move to Reset Password
+                    if (recoveryState.timerId) clearInterval(recoveryState.timerId);
+
+                    showToast(`Identity verified via WhatsApp, ${recoveryState.name}. Please set a new password.`, 'success');
+
+                    // Switch to Reset Password Form
+                    switchForm('form-reset');
+
+                }, 1000);
+            }
+
+            // --- Handle Password Reset Execution ---
+            function handlePasswordReset(event) {
+                event.preventDefault();
+
+                const btn = document.getElementById('btn-reset');
+                const newPass = document.getElementById('reset-password').value;
+                const confirmPass = document.getElementById('reset-confirm').value;
+
+                if (newPass.length < 8) {
+                    showToast('Password must be at least 8 characters', 'error');
+                    return;
+                }
+
+                if (newPass !== confirmPass) {
+                    showToast('Passwords do not match.', 'error');
+                    return;
+                }
+
+                btn.classList.add('loading');
+
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+
+                    // Update password in the mock database
+                    const user = usersDB.find(u => u.phone === recoveryState.phone);
+                    if (user) {
+                        user.password = newPass;
+                        showToast('Password updated successfully. You can now log in.', 'success');
+
+                        // Clear state and switch to login
+                        switchForm('form-login');
+                        document.getElementById('form-reset').reset();
+                    } else {
+                        showToast('Error updating password. User not found.', 'error');
+                    }
+                }, 1000);
+            }
+        </script>
+    </body>
+
+</html>
